@@ -1,0 +1,40 @@
+{
+   "name": "varna",
+   "description": "( वर्ण​ ) — Dynamically render 🎨 SVG with JavaScript ⚡ & CSS in a single 🤏 file.",
+   "version": "0.0.0",
+   "license": "",
+   "type": "module",
+   "bin": "src/bin/varna.js",
+   "main": "dist/varna.js",
+   "homepage": "https://github.com/vasanthdeveloper/varna#readme",
+   "bugs": "https://github.com/vasanthdeveloper/varna/issues",
+   "author": {
+      "name": "Vasanth Developer",
+      "email": "vasanth@vasanthdeveloper.com",
+      "url": "https://vasanth.tech"
+   },
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/vasanthdeveloper/varna.git"
+   },
+   "scripts": {
+      "clean": "rm -rf dist/",
+      "dev": "tsc -w",
+      "build": "npm run clean && tsc"
+   },
+   "keywords": [],
+   "devDependencies": {
+      "@babel/eslint-parser": "^7.13.14",
+      "@babel/plugin-syntax-top-level-await": "^7.12.13",
+      "@types/node": "^14.14.37",
+      "@typescript-eslint/eslint-plugin": "^4.20.0",
+      "@typescript-eslint/parser": "^4.20.0",
+      "eslint": "^7.23.0",
+      "eslint-config-prettier": "^8.1.0",
+      "eslint-plugin-import": "^2.22.1",
+      "eslint-plugin-prettier": "^3.3.1",
+      "eslint-plugin-simple-import-sort": "^7.0.0",
+      "prettier": "^2.2.1",
+      "typescript": "^4.2.3"
+   }
+}

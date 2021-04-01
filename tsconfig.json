@@ -1,0 +1,20 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "charset": "UTF-8",
+        "declaration": true,
+        "declarationMap": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "module": "ESNext",
+        "newLine": "LF",
+        "preserveConstEnums": true,
+        "removeComments": true,
+        "rootDir": "./src/lib",
+        "outDir": "./dist",
+        "sourceMap": true,
+        "target": "ES2015",
+        "incremental": true
+    }
+}
