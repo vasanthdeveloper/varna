@@ -25,10 +25,12 @@
    "keywords": [],
    "dependencies": {
       "@types/adm-zip": "^0.4.33",
+      "@types/chokidar": "^2.1.3",
       "@types/del": "^4.0.0",
       "@types/mkdirp": "^1.0.1",
       "@vasanthdeveloper/utilities": "^0.2.0",
       "adm-zip": "^0.5.5",
+      "chokidar": "^3.5.1",
       "commander": "^7.2.0",
       "del": "^6.0.0",
       "es-dirname": "^0.1.0",

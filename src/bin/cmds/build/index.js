@@ -3,6 +3,7 @@
  *  Created On 02 April 2021
  */
 
+import utilities from '@vasanthdeveloper/utilities'
 import { Command } from 'commander'
 import path from 'path'
 
@@ -11,9 +12,18 @@ import build from '../../../../dist/tasks/build/index.js'
 const action = async args => {
     // populate the defaults
     args.file = args.file || 'design'
-    args.directory = args.directory
-        ? path.resolve(args.directory)
-        : process.cwd()
+
+    if (args.directory) {
+        args.directory = path.resolve(args.directory)
+    } else {
+        const srcDir = path.join(process.cwd(), 'src')
+        if (await utilities.fs.exists(srcDir)) {
+            args.directory = srcDir
+        } else {
+            args.directory = process.cwd()
+        }
+    }
+
     args.output = args.output
         ? path.resolve(args.output)
         : path.join(process.cwd(), 'dist')
