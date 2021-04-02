@@ -1,6 +1,11 @@
 declare const _default: {
-    build: () => Promise<void>;
-    doctor: () => Promise<void>;
+    build: ({ dir, output, }: {
+        dir: string;
+        output: string;
+    }) => Promise<{
+        output: string;
+        added: string[];
+    }>;
     render: () => Promise<void>;
 };
 export default _default;

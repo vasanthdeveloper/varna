@@ -6,12 +6,14 @@
 
 import { Command } from 'commander'
 
-import doctor from './cmds/doctor/index.js'
+import build from './cmds/build/index.js'
+import dev from './cmds/dev/index.js'
 import help from './help.js'
 
 const app = new Command()
     .name('varna')
-    .addCommand(doctor)
+    .addCommand(dev)
+    .addCommand(build)
     .helpOption('-h, --help', 'this message 🤷‍♂️')
     .addHelpCommand(true, 'help 📖 for a given command')
 

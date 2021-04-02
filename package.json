@@ -24,8 +24,16 @@
    },
    "keywords": [],
    "dependencies": {
+      "@types/adm-zip": "^0.4.33",
+      "@types/del": "^4.0.0",
+      "@types/mkdirp": "^1.0.1",
+      "@vasanthdeveloper/utilities": "^0.2.0",
+      "adm-zip": "^0.5.5",
       "commander": "^7.2.0",
-      "read-pkg": "^2.0.0"
+      "del": "^6.0.0",
+      "es-dirname": "^0.1.0",
+      "itivrutaha": "^0.1.1",
+      "mkdirp": "^1.0.4"
    },
    "devDependencies": {
       "@babel/eslint-parser": "^7.13.14",

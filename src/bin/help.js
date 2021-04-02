@@ -3,9 +3,15 @@
  *  Created On 02 April 2021
  */
 
-import readPkg from 'read-pkg'
+import dirname from 'es-dirname'
+import fs from 'fs/promises'
+import path from 'path'
 
-export const app = await readPkg()
+export const app = JSON.parse(
+    await fs.readFile(path.join(dirname(), '..', '..', 'package.json'), {
+        encoding: 'utf-8',
+    }),
+)
 
 const ascii = `
 
