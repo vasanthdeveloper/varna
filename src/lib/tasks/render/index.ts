@@ -6,6 +6,7 @@
 
 import data from './data.js'
 import unpack from './packaging.js'
+import render from './render.js'
 import styles from './styles.js'
 import transform from './transform.js'
 
@@ -21,7 +22,7 @@ export default async ({
     payload: any
     output: string
     quality: number
-}): Promise<void> => {
+}): Promise<{ output: string }> => {
     // unpack the zip in memory
     await unpack(file)
 
@@ -33,4 +34,16 @@ export default async ({
 
     // inject the data
     await data(svg, payload)
+
+    // render the output image
+    await render({
+        svg,
+        output,
+        quality,
+        type,
+    })
+
+    return {
+        output,
+    }
 }

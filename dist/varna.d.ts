@@ -12,6 +12,8 @@ declare const _default: {
         payload: any;
         output: string;
         quality: number;
-    }) => Promise<void>;
+    }) => Promise<{
+        output: string;
+    }>;
 };
 export default _default;

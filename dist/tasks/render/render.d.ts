@@ -1,5 +1,6 @@
-declare const _default: ({ dir, output, type, quality, }: {
-    dir: string;
+import cheerio from 'cheerio';
+declare const _default: ({ svg, output, type, quality, }: {
+    svg: cheerio.Root;
     output: string;
     type: string;
     quality: number;

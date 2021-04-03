@@ -7,16 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import fs from 'fs/promises';
-import path from 'path';
 import sharp from 'sharp';
-export default ({ dir, output, type, quality, }) => __awaiter(void 0, void 0, void 0, function* () {
-    const paths = {
-        svg: path.join(dir, 'design.svg'),
-        transform: path.join(dir, 'transform.js'),
-        styles: path.join(dir, 'styles.json'),
-    };
-    let img = yield sharp(Buffer.from(yield fs.readFile(paths.svg, { encoding: 'utf-8' })));
+export default ({ svg, output, type, quality, }) => __awaiter(void 0, void 0, void 0, function* () {
+    let img = yield sharp(Buffer.from(svg('body').html()));
     if (type == 'jpg')
         type = 'jpeg';
     if (type == 'jpg') {

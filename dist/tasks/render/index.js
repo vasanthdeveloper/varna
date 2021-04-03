@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import data from './data.js';
 import unpack from './packaging.js';
+import render from './render.js';
 import styles from './styles.js';
 import transform from './transform.js';
 export default ({ file, type, output, payload, quality, }) => __awaiter(void 0, void 0, void 0, function* () {
@@ -16,4 +17,13 @@ export default ({ file, type, output, payload, quality, }) => __awaiter(void 0, 
     const svg = yield transform();
     yield styles(svg);
     yield data(svg, payload);
+    yield render({
+        svg,
+        output,
+        quality,
+        type,
+    });
+    return {
+        output,
+    };
 });

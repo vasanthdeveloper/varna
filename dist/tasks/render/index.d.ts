@@ -4,5 +4,7 @@ declare const _default: ({ file, type, output, payload, quality, }: {
     payload: any;
     output: string;
     quality: number;
-}) => Promise<void>;
+}) => Promise<{
+    output: string;
+}>;
 export default _default;
