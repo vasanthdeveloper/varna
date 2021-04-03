@@ -1,5 +1,5 @@
-declare const _default: ({ file, output, type, quality, }: {
-    file: string;
+declare const _default: ({ dir, output, type, quality, }: {
+    dir: string;
     output: string;
     type: string;
     quality: number;

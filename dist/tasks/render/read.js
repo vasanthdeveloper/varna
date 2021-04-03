@@ -7,9 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import unpack from './packaging.js';
-import transform from './transform.js';
-export default ({ file, output, type, quality, }) => __awaiter(void 0, void 0, void 0, function* () {
-    yield unpack(file);
-    yield transform();
+export default (svg) => __awaiter(void 0, void 0, void 0, function* () {
+    if ((yield utilities.fs.exists(file)) == false)
+        throw new Error(`Didn't find a varna template`);
 });
