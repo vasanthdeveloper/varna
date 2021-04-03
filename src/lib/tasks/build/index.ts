@@ -29,21 +29,26 @@ export default async ({
     output: string
 }): Promise<{ output: string; added: string[] }> => {
     // construct paths
-    const designSVG = path.join(dir, 'design.svg')
-    const transformJS = path.join(dir, 'transform.js')
-    const stylesJSON = path.join(dir, 'styles.json')
+    const paths = {
+        svg: path.join(dir, 'design.svg'),
+        transform: path.join(dir, 'transform.js'),
+        styles: path.join(dir, 'styles.json'),
+        data: path.join(dir, 'data.json'),
+    }
 
     // make sure a design.svg exists
-    if ((await utilities.fs.exists(designSVG)) == false)
+    if ((await utilities.fs.exists(paths.svg)) == false)
         throw new Error(`A design.svg doesn't exist in the given directory`)
 
     // create a new zip file
     const zip = new AdmZip()
 
     // add our files
-    zip.addLocalFile(designSVG)
-    if (await utilities.fs.exists(transformJS)) zip.addLocalFile(transformJS)
-    if (await utilities.fs.exists(stylesJSON)) zip.addLocalFile(stylesJSON)
+    zip.addLocalFile(paths.svg)
+    if (await utilities.fs.exists(paths.transform))
+        zip.addLocalFile(paths.transform)
+    if (await utilities.fs.exists(paths.styles)) zip.addLocalFile(paths.styles)
+    if (await utilities.fs.exists(paths.data)) zip.addLocalFile(paths.data)
 
     // create the directories in case they don't exist
     await mkdirp(path.dirname(output))

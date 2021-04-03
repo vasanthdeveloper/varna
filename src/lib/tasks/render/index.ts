@@ -4,23 +4,31 @@
  *  Created On 02 April 2021
  */
 
+import data from './data.js'
 import unpack from './packaging.js'
 import transform from './transform.js'
 
 export default async ({
     file,
-    output,
     type,
+    output,
+    payload,
     quality,
 }: {
-    file: string
-    output: string
     type: string
+    file: string
+    payload: any
+    output: string
     quality: number
 }): Promise<void> => {
     // unpack the zip in memory
     await unpack(file)
 
     // do transformations to design.svg
-    await transform()
+    const svg = await transform()
+
+    // TODO: add styles from styles.json
+
+    // inject the data
+    await data(svg, payload)
 }

@@ -12,7 +12,7 @@ import mkdirp from 'mkdirp'
 import { nanoid } from 'nanoid'
 import path from 'path'
 
-export default async (): Promise<void> => {
+export default async (): Promise<cheerio.Root> => {
     // read design.svg code and load into parser
     const svg = cheerio.load(mem.readFileSync('/design.svg', 'utf-8'))
 
@@ -32,4 +32,7 @@ export default async (): Promise<void> => {
 
         await del(file, { force: true })
     }
+
+    // return the loaded SVG
+    return svg
 }

@@ -23,17 +23,22 @@ const writeZip = (zip, output) => new Promise((resolve, reject) => {
     });
 });
 export default ({ dir, output, }) => __awaiter(void 0, void 0, void 0, function* () {
-    const designSVG = path.join(dir, 'design.svg');
-    const transformJS = path.join(dir, 'transform.js');
-    const stylesJSON = path.join(dir, 'styles.json');
-    if ((yield utilities.fs.exists(designSVG)) == false)
+    const paths = {
+        svg: path.join(dir, 'design.svg'),
+        transform: path.join(dir, 'transform.js'),
+        styles: path.join(dir, 'styles.json'),
+        data: path.join(dir, 'data.json'),
+    };
+    if ((yield utilities.fs.exists(paths.svg)) == false)
         throw new Error(`A design.svg doesn't exist in the given directory`);
     const zip = new AdmZip();
-    zip.addLocalFile(designSVG);
-    if (yield utilities.fs.exists(transformJS))
-        zip.addLocalFile(transformJS);
-    if (yield utilities.fs.exists(stylesJSON))
-        zip.addLocalFile(stylesJSON);
+    zip.addLocalFile(paths.svg);
+    if (yield utilities.fs.exists(paths.transform))
+        zip.addLocalFile(paths.transform);
+    if (yield utilities.fs.exists(paths.styles))
+        zip.addLocalFile(paths.styles);
+    if (yield utilities.fs.exists(paths.data))
+        zip.addLocalFile(paths.data);
     yield mkdirp(path.dirname(output));
     yield del(output);
     yield writeZip(zip, output);

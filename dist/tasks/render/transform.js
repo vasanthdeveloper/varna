@@ -28,4 +28,5 @@ export default () => __awaiter(void 0, void 0, void 0, function* () {
         mod(svg);
         yield del(file, { force: true });
     }
+    return svg;
 });

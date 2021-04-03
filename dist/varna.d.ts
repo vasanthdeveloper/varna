@@ -6,10 +6,11 @@ declare const _default: {
         output: string;
         added: string[];
     }>;
-    render: ({ file, output, type, quality, }: {
-        file: string;
-        output: string;
+    render: ({ file, type, output, payload, quality, }: {
         type: string;
+        file: string;
+        payload: any;
+        output: string;
         quality: number;
     }) => Promise<void>;
 };

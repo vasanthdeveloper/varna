@@ -1,2 +1,3 @@
-declare const _default: () => Promise<void>;
+import cheerio from 'cheerio';
+declare const _default: () => Promise<cheerio.Root>;
 export default _default;
