@@ -7,13 +7,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import data from './data.js';
-import unpack from './packaging.js';
-import styles from './styles.js';
-import transform from './transform.js';
-export default ({ file, type, output, payload, quality, }) => __awaiter(void 0, void 0, void 0, function* () {
-    yield unpack(file);
-    const svg = yield transform();
-    yield styles(svg);
-    yield data(svg, payload);
+import { fs as mem } from 'memfs';
+export default (svg) => __awaiter(void 0, void 0, void 0, function* () {
+    if (mem.existsSync('/styles.json') == false)
+        return;
+    const json = JSON.parse(mem.readFileSync('/styles.json', { encoding: 'utf-8' }));
+    for (const selector of Object.keys(json)) {
+        const elm = svg(selector);
+        if (elm.length == 0) {
+            continue;
+        }
+        elm.css(json[selector]);
+    }
 });

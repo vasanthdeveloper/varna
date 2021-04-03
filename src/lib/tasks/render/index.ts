@@ -6,6 +6,7 @@
 
 import data from './data.js'
 import unpack from './packaging.js'
+import styles from './styles.js'
 import transform from './transform.js'
 
 export default async ({
@@ -27,7 +28,8 @@ export default async ({
     // do transformations to design.svg
     const svg = await transform()
 
-    // TODO: add styles from styles.json
+    // add styles from styles.json
+    await styles(svg)
 
     // inject the data
     await data(svg, payload)
