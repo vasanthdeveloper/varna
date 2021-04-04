@@ -4,10 +4,15 @@
  */
 
 import utilities from '@vasanthdeveloper/utilities'
+import chalk from 'chalk'
 import { Command } from 'commander'
+import exeTime from 'execution-time'
 import path from 'path'
 
 import build from '../../../../dist/tasks/build/index.js'
+import logger from '../../logger.js'
+
+const performance = exeTime()
 
 const action = async args => {
     // populate the defaults
@@ -28,12 +33,20 @@ const action = async args => {
         ? path.resolve(args.output)
         : path.join(process.cwd(), 'dist')
 
+    // start performance indexing
+    performance.start('build')
+
     const stats = await build({
         dir: args.directory,
         output: path.join(args.output, `${args.file}.varna`),
     })
 
-    console.log(stats)
+    const { words: time } = performance.stop('build')
+    logger.note(
+        `Included ${stats.added.map(file => chalk.gray(file)).join(' ')}`,
+    )
+    logger.success(`Written to ${stats.output}`)
+    logger.info(`🕖 Took ${time}`)
 }
 
 export default new Command()

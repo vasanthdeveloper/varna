@@ -5,9 +5,13 @@
 
 import utilities from '@vasanthdeveloper/utilities'
 import { Command } from 'commander'
+import exeTime from 'execution-time'
 import path from 'path'
 
 import render from '../../../../dist/tasks/render/index.js'
+import logger from '../../logger.js'
+
+const performance = exeTime()
 
 const action = async args => {
     // populate the defaults
@@ -28,8 +32,15 @@ const action = async args => {
     }
     args.quality ? args.quality : (args.quality = 80)
 
+    // start performance indexing
+    performance.start('render')
+
     // render the image
-    await render(args)
+    const { output } = await render(args)
+
+    const { words: time } = performance.stop('render')
+    logger.success(`Written to ${output}`)
+    logger.info(`🕖 Took ${time}`)
 }
 
 export default new Command()
