@@ -9,7 +9,7 @@ import svgson from 'svgson'
 
 const replace = async (
     value: string,
-    data: any,
+    queryFn: (query: string) => Promise<string>,
 ): Promise<{
     value: string
     values?: string[]
@@ -24,7 +24,7 @@ const replace = async (
 
     // loop through each one of them and replace the strings
     for (const match of matches) {
-        const val = data[match.slice(1, -1)] || match
+        const val = await queryFn(match.slice(1, -1))
         value = value.replace(match, val)
         values.push(val)
     }
@@ -39,9 +39,9 @@ const replace = async (
 const traverse = async (
     svg: svgson.INode,
     variables: any,
-    data: any,
+    queryFn?: (query: string) => Promise<string>,
 ): Promise<void> => {
-    const parsed = await replace(svg.value, data)
+    const parsed = await replace(svg.value, queryFn)
 
     svg.value = parsed.value
     if (parsed.variables)
@@ -52,27 +52,40 @@ const traverse = async (
     // recursively traverse through all svg objects
     if (svg.children.length > 0)
         for (const child of svg.children) {
-            Object.assign(variables, await traverse(child, variables, data))
+            Object.assign(variables, await traverse(child, variables, queryFn))
         }
 }
 
-export default async (svg: cheerio.Root, data: unknown): Promise<void> => {
-    // if no data was passed & no data.json was found we skip
-    if (!data && mem.existsSync('/data.json') == false) return
-
-    // data from arguments should override
-    // the data.json file if found
-    if (!data) {
-        data = JSON.parse(
-            mem.readFileSync('/data.json', { encoding: 'utf-8' }) as string,
-        )
-    }
-
+export default async (
+    svg: cheerio.Root,
+    queryFn?: (query: string) => Promise<string>,
+): Promise<void> => {
     // load the svg string into svgson
     const parsed = await svgson.parse(svg('body').html())
 
+    // a temporary object to hold variables
+    // in memory
     const variables = {}
-    await traverse(parsed, variables, data)
+
+    // if there's no queryFn, we use our own to read
+    // the internal data.json file
+    if (!queryFn) {
+        if (mem.existsSync('/data.json') == true) {
+            const data = JSON.parse(
+                mem.readFileSync('/data.json', { encoding: 'utf-8' }) as string,
+            )
+
+            const queryFn = async (query: string): Promise<string> => {
+                return data[query] || query
+            }
+
+            // simply pass on with the given queryFn
+            await traverse(parsed, variables, queryFn)
+        }
+    } else {
+        // simply pass on with the given queryFn
+        await traverse(parsed, variables, queryFn)
+    }
 
     // put back into cheerio's SVG
     svg('body').html(await svgson.stringify(parsed))

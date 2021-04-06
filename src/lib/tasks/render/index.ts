@@ -14,14 +14,14 @@ export default async ({
     file,
     type,
     output,
-    payload,
     quality,
+    queryFn,
 }: {
     type: string
     file: string
-    payload: any
     output: string
     quality: number
+    queryFn?: (query: string) => Promise<string>
 }): Promise<{ output: string }> => {
     // unpack the zip in memory
     await unpack(file)
@@ -33,7 +33,7 @@ export default async ({
     await styles(svg)
 
     // inject the data
-    await data(svg, payload)
+    await data(svg, queryFn)
 
     // render the output image
     await render({

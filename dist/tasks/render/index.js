@@ -12,11 +12,11 @@ import unpack from './packaging.js';
 import render from './render.js';
 import styles from './styles.js';
 import transform from './transform.js';
-export default ({ file, type, output, payload, quality, }) => __awaiter(void 0, void 0, void 0, function* () {
+export default ({ file, type, output, payload, quality, queryFn, }) => __awaiter(void 0, void 0, void 0, function* () {
     yield unpack(file);
     const svg = yield transform();
     yield styles(svg);
-    yield data(svg, payload);
+    yield data(svg, queryFn);
     yield render({
         svg,
         output,

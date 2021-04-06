@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { fs as mem } from 'memfs';
 import svgson from 'svgson';
-const replace = (value, data) => __awaiter(void 0, void 0, void 0, function* () {
+const replace = (value, queryFn) => __awaiter(void 0, void 0, void 0, function* () {
     const matches = value.match(/:([a-zA-Z.]+):/g);
     const values = [];
     if (!matches)
@@ -17,7 +17,7 @@ const replace = (value, data) => __awaiter(void 0, void 0, void 0, function* () 
             value,
         };
     for (const match of matches) {
-        const val = data[match.slice(1, -1)] || match;
+        const val = yield queryFn(match.slice(1, -1));
         value = value.replace(match, val);
         values.push(val);
     }
@@ -27,24 +27,30 @@ const replace = (value, data) => __awaiter(void 0, void 0, void 0, function* () 
         variables: matches,
     };
 });
-const traverse = (svg, variables, data) => __awaiter(void 0, void 0, void 0, function* () {
-    const parsed = yield replace(svg.value, data);
+const traverse = (svg, variables, queryFn) => __awaiter(void 0, void 0, void 0, function* () {
+    const parsed = yield replace(svg.value, queryFn);
     svg.value = parsed.value;
     if (parsed.variables)
         parsed.variables.forEach((variable, index) => (variables[variable] = parsed.values[index]));
     if (svg.children.length > 0)
         for (const child of svg.children) {
-            Object.assign(variables, yield traverse(child, variables, data));
+            Object.assign(variables, yield traverse(child, variables, queryFn));
         }
 });
-export default (svg, data) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!data && mem.existsSync('/data.json') == false)
-        return;
-    if (!data) {
-        data = JSON.parse(mem.readFileSync('/data.json', { encoding: 'utf-8' }));
-    }
+export default (svg, queryFn) => __awaiter(void 0, void 0, void 0, function* () {
     const parsed = yield svgson.parse(svg('body').html());
     const variables = {};
-    yield traverse(parsed, variables, data);
+    if (!queryFn) {
+        if (mem.existsSync('/data.json') == true) {
+            const data = JSON.parse(mem.readFileSync('/data.json', { encoding: 'utf-8' }));
+            const queryFn = (query) => __awaiter(void 0, void 0, void 0, function* () {
+                return data[query] || query;
+            });
+            yield traverse(parsed, variables, queryFn);
+        }
+    }
+    else {
+        yield traverse(parsed, variables, queryFn);
+    }
     svg('body').html(yield svgson.stringify(parsed));
 });
