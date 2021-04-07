@@ -1,7 +1,7 @@
 {
    "name": "varna",
    "description": "( वर्ण​ ) — Dynamically render 🎨 SVG with JavaScript ⚡ & CSS in a single 🤏 file.",
-   "version": "0.0.0",
+   "version": "0.1.0",
    "license": "",
    "type": "module",
    "bin": "src/bin/varna.js",
