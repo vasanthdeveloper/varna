@@ -45,5 +45,6 @@ export default ({ file, type, output, quality, queryFn, cacheFn, }) => __awaiter
         rendered,
         variables,
         cached: false,
+        type: output.type,
     };
 });

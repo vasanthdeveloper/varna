@@ -43,9 +43,10 @@ export default async ({
     queryFn?: (query: string) => Promise<string>
     cacheFn?: (variable: string) => Promise<boolean>
 }): Promise<{
-    rendered?: string | Buffer
     cached: boolean
     variables: string[]
+    type?: OutputTypeEnum
+    rendered?: string | Buffer
 }> => {
     // unpack the zip in memory
     await unpack(file)
@@ -80,5 +81,6 @@ export default async ({
         rendered,
         variables,
         cached: false,
+        type: output.type,
     }
 }

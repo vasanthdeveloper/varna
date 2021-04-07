@@ -9,7 +9,7 @@ import { Command } from 'commander'
 import exeTime from 'execution-time'
 import path from 'path'
 
-import render, { FileTypeEnum } from '../../../../dist/tasks/render/index.js'
+import render from '../../../../dist/tasks/render/index.js'
 import logger from '../../logger.js'
 
 const performance = exeTime()
@@ -44,7 +44,7 @@ const action = async args => {
         },
         file: args.file,
         quality: args.quality,
-        type: FileTypeEnum[args.type],
+        type: args.type,
     })
 
     const { words: time } = performance.stop('render')

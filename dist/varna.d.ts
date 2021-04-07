@@ -15,9 +15,10 @@ declare const _default: {
         queryFn?: (query: string) => Promise<string>;
         cacheFn?: (variable: string) => Promise<boolean>;
     }) => Promise<{
-        rendered?: string | Buffer;
         cached: boolean;
         variables: string[];
+        type?: import("./tasks/render/index.js").OutputTypeEnum;
+        rendered?: string | Buffer;
     }>;
 };
 export default _default;

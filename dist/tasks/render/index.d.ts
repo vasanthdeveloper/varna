@@ -21,8 +21,9 @@ declare const _default: ({ file, type, output, quality, queryFn, cacheFn, }: {
     queryFn?: (query: string) => Promise<string>;
     cacheFn?: (variable: string) => Promise<boolean>;
 }) => Promise<{
-    rendered?: string | Buffer;
     cached: boolean;
     variables: string[];
+    type?: OutputTypeEnum;
+    rendered?: string | Buffer;
 }>;
 export default _default;

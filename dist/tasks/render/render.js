@@ -13,12 +13,12 @@ export default ({ svg, output, type, quality, }) => __awaiter(void 0, void 0, vo
     let img = yield sharp(Buffer.from(svg('body').html()));
     img['jpg'] = img['jpeg'];
     if (type == FileTypeEnum.jpg || type == FileTypeEnum.webp) {
-        img = img[FileTypeEnum[type]]({
+        img = img[type]({
             quality,
         });
     }
     else {
-        img = img[FileTypeEnum[type]]();
+        img = img[type]();
     }
     if (output.type.toString() == 'path') {
         yield img.toFile(output.path);

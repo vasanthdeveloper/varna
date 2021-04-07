@@ -27,11 +27,11 @@ export default async ({
 
     // run the rendering
     if (type == FileTypeEnum.jpg || type == FileTypeEnum.webp) {
-        img = img[FileTypeEnum[type]]({
+        img = img[type]({
             quality,
         })
     } else {
-        img = img[FileTypeEnum[type]]()
+        img = img[type]()
     }
 
     // depending on which format the user wants
