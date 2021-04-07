@@ -8,17 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import sharp from 'sharp';
+import { FileTypeEnum } from './index.js';
 export default ({ svg, output, type, quality, }) => __awaiter(void 0, void 0, void 0, function* () {
     let img = yield sharp(Buffer.from(svg('body').html()));
-    if (type == 'jpg')
-        type = 'jpeg';
-    if (type == 'jpg') {
-        img = img[type]({
+    img['jpg'] = img['jpeg'];
+    if (type == FileTypeEnum.jpg || type == FileTypeEnum.webp) {
+        img = img[FileTypeEnum[type]]({
             quality,
         });
     }
     else {
-        img = img[type]();
+        img = img[FileTypeEnum[type]]();
     }
-    yield img.toFile(output);
+    if (output.type.toString() == 'path') {
+        yield img.toFile(output.path);
+        return output.path;
+    }
+    else if (output.type.toString() == 'bytes') {
+        return yield img.toBuffer();
+    }
+    else if (output.type.toString() == 'base64') {
+        return yield (yield img.toBuffer()).toString('base64');
+    }
 });

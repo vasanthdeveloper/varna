@@ -1,3 +1,4 @@
+/// <reference types="node" />
 declare const _default: {
     build: ({ dir, output, }: {
         dir: string;
@@ -7,15 +8,16 @@ declare const _default: {
         added: string[];
     }>;
     render: ({ file, type, output, quality, queryFn, cacheFn, }: {
-        type: string;
         file: string;
-        output: string;
         quality: number;
+        output: import("./tasks/render/index.js").OutputImpl;
+        type: import("./tasks/render/index.js").FileTypeEnum;
         queryFn?: (query: string) => Promise<string>;
         cacheFn?: (variable: string) => Promise<boolean>;
     }) => Promise<{
-        output?: string;
+        rendered?: string | Buffer;
         cached: boolean;
+        variables: string[];
     }>;
 };
 export default _default;

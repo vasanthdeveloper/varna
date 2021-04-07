@@ -11,6 +11,23 @@ import render from './render.js'
 import styles from './styles.js'
 import transform from './transform.js'
 
+export enum FileTypeEnum {
+    png,
+    jpg,
+    webp,
+}
+
+export enum OutputTypeEnum {
+    bytes,
+    path,
+    base64,
+}
+
+export interface OutputImpl {
+    path?: string
+    type: OutputTypeEnum
+}
+
 export default async ({
     file,
     type,
@@ -19,13 +36,17 @@ export default async ({
     queryFn,
     cacheFn,
 }: {
-    type: string
     file: string
-    output: string
     quality: number
+    output: OutputImpl
+    type: FileTypeEnum
     queryFn?: (query: string) => Promise<string>
     cacheFn?: (variable: string) => Promise<boolean>
-}): Promise<{ output?: string; cached: boolean }> => {
+}): Promise<{
+    rendered?: string | Buffer
+    cached: boolean
+    variables: string[]
+}> => {
     // unpack the zip in memory
     await unpack(file)
 
@@ -38,16 +59,17 @@ export default async ({
     if ((await caching(svg, cacheFn)) == false)
         return {
             cached: true,
+            variables: [],
         }
 
     // add styles from styles.json
     await styles(svg)
 
     // inject the data
-    await data(svg, queryFn)
+    const variables = await data(svg, queryFn)
 
     // render the output image
-    await render({
+    const rendered = await render({
         svg,
         output,
         quality,
@@ -55,7 +77,8 @@ export default async ({
     })
 
     return {
-        output,
+        rendered,
+        variables,
         cached: false,
     }
 }

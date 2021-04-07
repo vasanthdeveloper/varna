@@ -1,8 +1,10 @@
+/// <reference types="node" />
 import cheerio from 'cheerio';
+import { FileTypeEnum, OutputImpl } from './index.js';
 declare const _default: ({ svg, output, type, quality, }: {
     svg: cheerio.Root;
-    output: string;
-    type: string;
+    output: OutputImpl;
+    type: FileTypeEnum;
     quality: number;
-}) => Promise<void>;
+}) => Promise<Buffer | string>;
 export default _default;

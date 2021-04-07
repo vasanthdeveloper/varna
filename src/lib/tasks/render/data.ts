@@ -59,7 +59,13 @@ const traverse = async (
 export default async (
     svg: cheerio.Root,
     queryFn?: (query: string) => Promise<string>,
-): Promise<void> => {
+): Promise<string[]> => {
+    // get a list of all variables
+    const matches =
+        (svg('body')
+            .html()
+            .match(/:([a-zA-Z.]+):/g) as string[]) || []
+
     // load the svg string into svgson
     const parsed = await svgson.parse(svg('body').html())
 
@@ -89,4 +95,6 @@ export default async (
 
     // put back into cheerio's SVG
     svg('body').html(await svgson.stringify(parsed))
+
+    return matches.map(match => match.slice(1, -1))
 }

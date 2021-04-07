@@ -38,6 +38,9 @@ const traverse = (svg, variables, queryFn) => __awaiter(void 0, void 0, void 0, 
         }
 });
 export default (svg, queryFn) => __awaiter(void 0, void 0, void 0, function* () {
+    const matches = svg('body')
+        .html()
+        .match(/:([a-zA-Z.]+):/g) || [];
     const parsed = yield svgson.parse(svg('body').html());
     const variables = {};
     if (!queryFn) {
@@ -53,4 +56,5 @@ export default (svg, queryFn) => __awaiter(void 0, void 0, void 0, function* () 
         yield traverse(parsed, variables, queryFn);
     }
     svg('body').html(yield svgson.stringify(parsed));
+    return matches.map(match => match.slice(1, -1));
 });

@@ -13,23 +13,37 @@ import unpack from './packaging.js';
 import render from './render.js';
 import styles from './styles.js';
 import transform from './transform.js';
+export var FileTypeEnum;
+(function (FileTypeEnum) {
+    FileTypeEnum[FileTypeEnum["png"] = 0] = "png";
+    FileTypeEnum[FileTypeEnum["jpg"] = 1] = "jpg";
+    FileTypeEnum[FileTypeEnum["webp"] = 2] = "webp";
+})(FileTypeEnum || (FileTypeEnum = {}));
+export var OutputTypeEnum;
+(function (OutputTypeEnum) {
+    OutputTypeEnum[OutputTypeEnum["bytes"] = 0] = "bytes";
+    OutputTypeEnum[OutputTypeEnum["path"] = 1] = "path";
+    OutputTypeEnum[OutputTypeEnum["base64"] = 2] = "base64";
+})(OutputTypeEnum || (OutputTypeEnum = {}));
 export default ({ file, type, output, quality, queryFn, cacheFn, }) => __awaiter(void 0, void 0, void 0, function* () {
     yield unpack(file);
     const svg = yield transform();
     if ((yield caching(svg, cacheFn)) == false)
         return {
             cached: true,
+            variables: [],
         };
     yield styles(svg);
-    yield data(svg, queryFn);
-    yield render({
+    const variables = yield data(svg, queryFn);
+    const rendered = yield render({
         svg,
         output,
         quality,
         type,
     });
     return {
-        output,
+        rendered,
+        variables,
         cached: false,
     };
 });

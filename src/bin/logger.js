@@ -9,4 +9,5 @@ import itivrutaha from 'itivrutaha'
 export default itivrutaha.createNewLogger({
     theme: `${chalk.gray.dim(':time')} ${chalk.gray.dim('•')} :type :message`,
     timeFormat: 'HH:MM:ss',
+    verboseIdentifier: ['-V', '--verbose'],
 })
