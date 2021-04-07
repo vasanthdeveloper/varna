@@ -6,15 +6,16 @@ declare const _default: {
         output: string;
         added: string[];
     }>;
-    render: ({ file, type, output, payload, quality, queryFn, }: {
+    render: ({ file, type, output, quality, queryFn, cacheFn, }: {
         type: string;
         file: string;
-        payload: any;
         output: string;
         quality: number;
         queryFn?: (query: string) => Promise<string>;
+        cacheFn?: (variable: string) => Promise<boolean>;
     }) => Promise<{
-        output: string;
+        output?: string;
+        cached: boolean;
     }>;
 };
 export default _default;
